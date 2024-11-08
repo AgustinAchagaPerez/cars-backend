@@ -1,5 +1,5 @@
-import Car from '../models/Car.js';
-import User from '../models/User.js';
+import Car from '../models/car.js';
+import User from '../models/user.js';
 
 // Agregar un nuevo auto (sólo para administradores)
 export const addCar = async (req, res) => {
@@ -58,4 +58,19 @@ export const purchaseCar = async (req, res) => {
 export const rentCar = async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
-    if (!car || car.status === 'no dis
+    if (!car || car.status === 'no disponible' || car.type !== 'alquiler') {
+      return res.status(404).json({ message: 'Auto no disponible para alquiler' });
+    }
+
+    car.status = 'no disponible';
+    await car.save();
+
+    const user = await User.findById(req.user._id);
+    user.rentedCars.push(car._id);
+    await user.save();
+
+    res.status(200).json({ message: 'Alquiler exitoso', car });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al alquilar el auto', error });
+  }
+};
