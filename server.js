@@ -9,20 +9,20 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middleware para manejar JSON
 app.use(bodyParser.json());
 
-// Rutas
+// Rutas para manejar las operaciones CRUD de autos
 app.use('/api', carRoutes);
 
-// Conexión a MongoDB
+// Conexión a MongoDB Atlas
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log('Conectado a MongoDB');
+    console.log('Conectado a MongoDB Atlas');
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en el puerto ${PORT}`);
     });
