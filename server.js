@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import carRoutes from './routes/carRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config(); //carga las variables de entorno desde el archivo .env
 
