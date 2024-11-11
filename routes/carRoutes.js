@@ -1,5 +1,5 @@
 import express from 'express';
-import Car from '../models/Car.js';
+import Car from '../models/cars.js';
 
 const router = express.Router();
 
