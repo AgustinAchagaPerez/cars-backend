@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import carRoutes from './routes/carRoutes.js';
-import userRoutes from './routes/userRoutes.js'; // Asegúrate de que esto esté correcto
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config(); // Carga las variables de entorno desde el archivo .env
 
@@ -14,15 +14,13 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // Rutas para manejar las operaciones CRUD de autos y usuarios
-app.use('/api/cars', carRoutes);
-app.use('/api', userRoutes);  // Cambié esto a '/api' para que las rutas de usuarios estén bajo /api
+app.use('/api/cars', carRoutes); 
+app.use('/api/users', userRoutes); 
 
-// Conexión a MongoDB Atlas
+
+// Conexión a MongoDB Atlas 
 mongoose
-  .connect(process.env.MONGOURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  .connect(process.env.MONGOURI)
   .then(() => {
     console.log('Conectado a MongoDB Atlas');
     app.listen(PORT, () => {
