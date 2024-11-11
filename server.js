@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import carRoutes from './routes/carRoutes.js';
 
-dotenv.config();
+dotenv.config(); //carga las variables de entorno desde el archivo .env
 
 const app = express();
 const PORT = process.env.PORT || 3000;

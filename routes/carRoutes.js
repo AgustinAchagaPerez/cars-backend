@@ -66,4 +66,44 @@ router.delete('/cars/:id', async (req, res) => {
   }
 });
 
+// Alquilar un auto
+router.post('/cars/:id/rent', async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (car) {
+      if (car.status === 'available') {
+        car.status = 'rented';
+        const rentedCar = await car.save();
+        res.json({ message: 'Auto alquilado', car: rentedCar });
+      } else {
+        res.status(400).json({ message: 'El auto no está disponible para alquiler' });
+      }
+    } else {
+      res.status(404).json({ message: 'Auto no encontrado' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Comprar un auto
+router.post('/cars/:id/purchase', async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (car) {
+      if (car.status === 'available') {
+        car.status = 'sold';
+        const soldCar = await car.save();
+        res.json({ message: 'Auto comprado', car: soldCar });
+      } else {
+        res.status(400).json({ message: 'El auto no está disponible para compra' });
+      }
+    } else {
+      res.status(404).json({ message: 'Auto no encontrado' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;
