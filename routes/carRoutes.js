@@ -4,7 +4,7 @@ import Car from '../models/cars.js';
 const router = express.Router();
 
 // Crear un nuevo auto
-router.post('/cars', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const car = new Car(req.body);
     const savedCar = await car.save();
@@ -15,7 +15,7 @@ router.post('/cars', async (req, res) => {
 });
 
 // Obtener todos los autos
-router.get('/cars', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const cars = await Car.find();
     res.json(cars);
@@ -25,9 +25,14 @@ router.get('/cars', async (req, res) => {
 });
 
 // Obtener un auto por ID
-router.get('/cars/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
+  console.log(req.params.id);
+  
   try {
     const car = await Car.findById(req.params.id);
+    console.log(car);
+    console.log("FFFFFF");
+
     if (car) {
       res.json(car);
     } else {

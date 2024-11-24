@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import carRoutes from './routes/carRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -13,16 +14,19 @@ const PORT = process.env.PORT || 3000;
 // Middleware para manejar JSON
 app.use(bodyParser.json());
 
+app.use(cors());
+//app.listen(3002, ()=>console.log("server is running"))
+
 // Rutas para manejar las operaciones CRUD de autos y usuarios
-app.use('/api/cars', carRoutes); 
-app.use('/api/users', userRoutes); 
+app.use('/cars', carRoutes); 
+//app.use('/', userRoutes);
 
 
 // Conexión a MongoDB Atlas 
 mongoose
   .connect(process.env.MONGOURI)
   .then(() => {
-    console.log('Conectado a MongoDB Atlas');
+    console.log('Conectado a MongoDB');
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en el puerto ${PORT}`);
     });
