@@ -1,34 +1,30 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import carRoutes from './routes/carRoutes.js';
-import userRoutes from './routes/userRoutes.js';
+import express from "express"; 
+import cors from "cors";
+import connectDB from "./config/db.js";  // Importación correcta de la función
+import carRoutes from "./routes/carRoutes.js"; 
 
-dotenv.config(); // Carga las variables de entorno desde el archivo .env
-
+// Inicializar la app
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middleware para manejar JSON
-app.use(bodyParser.json());
+// Conectar a la base de datos
+connectDB();  // Llamar la función para conectar a la base de datos
 
+// Middleware
 app.use(cors());
-//app.listen(3002, ()=>console.log("server is running"))
+app.use(express.json());
 
-// Rutas para manejar las operaciones CRUD de autos y usuarios
-app.use('/cars', carRoutes); 
-//app.use('/', userRoutes);
+// Rutas
+app.use("/cars", carRoutes);
 
+// Ruta principal
+app.get("/", (req, res) => {
+  res.send("¡Servidor corriendo!");
+});
 
-// Conexión a MongoDB Atlas 
-mongoose
-  .connect(process.env.MONGOURI)
-  .then(() => {
-    console.log('Conectado a MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Servidor corriendo en el puerto ${PORT}`);
-    });
-  })
-  .catch((error) => console.error('Error de conexión a MongoDB:', error));
+// Puerto
+const PORT = process.env.PORT || 3002;
+
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+});

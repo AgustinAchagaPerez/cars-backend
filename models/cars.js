@@ -5,14 +5,10 @@ const carSchema = new mongoose.Schema({
   model: { type: String, required: true },
   year: { type: Number, required: true },
   price: { type: Number, required: true },
-  status: { 
-    type: String, 
-    enum: ['available', 'rented', 'sold'], // Mejora en los estados
-    default: 'available' 
-  },
+  status: { type: String, enum: ['available', 'rented', 'sold'], default: 'available' },
   type: { type: String, enum: ['compra', 'alquiler'], required: true },
-  description: { type: String },
-  imageUrl: { type: String }
+  description: { type: String, required: true },
+  imageUrl: { type: String, required: true },
 });
 
 const Car = mongoose.model('Car', carSchema);
